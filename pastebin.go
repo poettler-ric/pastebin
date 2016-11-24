@@ -73,16 +73,21 @@ func main() {
     }
     defer res.Body.Close()
 
-    // handle response
     body, err := ioutil.ReadAll(res.Body)
-    if err != nil {
-        log.Fatalf("error while reading the response body: %s", err)
-    }
 
-    var creationInfo CreateResponse
-    err = json.Unmarshal(body, &creationInfo)
-    if err != nil {
-        log.Fatalf("error while parsing json: %s", err)
+    if res.StatusCode == 201 {
+        // handle response
+        if err != nil {
+            log.Fatalf("error while reading the response body: %s", err)
+        }
+
+        var creationInfo CreateResponse
+        err = json.Unmarshal(body, &creationInfo)
+        if err != nil {
+            log.Fatalf("error while parsing json: %s", err)
+        }
+        fmt.Printf("created gist: %s\n", creationInfo.HTMLURL)
+    } else {
+        fmt.Printf("failed to create gist:\n%s\n%s\n", res.Status, body)
     }
-    fmt.Printf("created gist: %s\n", creationInfo.HTMLURL)
 }
