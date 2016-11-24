@@ -72,15 +72,14 @@ func main() {
         log.Fatalf("error while posting: %s", err)
     }
     defer res.Body.Close()
+    if err != nil {
+        log.Fatalf("error while reading the response body: %s", err)
+    }
 
     body, err := ioutil.ReadAll(res.Body)
 
     if res.StatusCode == 201 {
         // handle response
-        if err != nil {
-            log.Fatalf("error while reading the response body: %s", err)
-        }
-
         var creationInfo CreateResponse
         err = json.Unmarshal(body, &creationInfo)
         if err != nil {
