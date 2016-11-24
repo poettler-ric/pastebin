@@ -79,7 +79,7 @@ func main() {
     body, err := ioutil.ReadAll(res.Body)
 
     if res.StatusCode == 201 {
-        // handle response
+        // print gist url
         var creationInfo CreateResponse
         err = json.Unmarshal(body, &creationInfo)
         if err != nil {
@@ -87,6 +87,7 @@ func main() {
         }
         fmt.Printf("created gist: %s\n", creationInfo.HTMLURL)
     } else {
+        // print error message
         fmt.Printf("failed to create gist:\n%s\n%s\n", res.Status, body)
     }
 }
