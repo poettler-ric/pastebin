@@ -72,9 +72,6 @@ func main() {
 		log.Fatalf("error while posting: %s", err)
 	}
 	defer res.Body.Close()
-	if err != nil {
-		log.Fatalf("error while reading the response body: %s", err)
-	}
 
 	body, err := ioutil.ReadAll(res.Body)
 
