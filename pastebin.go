@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -41,6 +42,9 @@ func main() {
 	if files := pflag.Args(); len(files) > 0 {
 		// post files
 		for _, f := range files {
+			if strings.ContainsRune(f, '/') {
+				log.Fatalln("file must not be in a subdirectory")
+			}
 			bytes, err := ioutil.ReadFile(f)
 			if err != nil {
 				log.Fatalf("error while reading %s: %v", f, err)
