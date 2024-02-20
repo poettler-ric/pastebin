@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
+	"log"
+	"os"
+	"strings"
+
 	"github.com/google/go-github/github"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
-	"io/ioutil"
-	"log"
-	"os"
-	"strings"
 )
 
 func main() {
@@ -45,7 +46,7 @@ func main() {
 			if strings.ContainsRune(f, '/') {
 				log.Fatalln("file must not be in a subdirectory")
 			}
-			bytes, err := ioutil.ReadFile(f)
+			bytes, err := os.ReadFile(f)
 			if err != nil {
 				log.Fatalf("error while reading %s: %v", f, err)
 			}
@@ -56,7 +57,7 @@ func main() {
 		}
 	} else {
 		// post stdin
-		bytes, err := ioutil.ReadAll(os.Stdin)
+		bytes, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			log.Fatalf("error while reading stdin: %v", err)
 		}
